@@ -13,7 +13,6 @@ header{min-height:108px;display:flex;align-items:center;justify-content:space-be
 .red{color:var(--red)}
 .today{display:flex;align-items:flex-end;flex-direction:column;gap:4px;font-size:11px;color:var(--muted)}
 .today strong{font-size:25px;letter-spacing:-.5px;font-weight:400;color:var(--ink);font-variant-numeric:tabular-nums}
-.today i{display:inline-block;width:5px;height:5px;margin-left:4px;border-radius:100%;background:var(--red)}
 .direction-section{padding:32px 0 26px}
 .section-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
 h2{font-size:15px;font-weight:500;margin:0}
@@ -88,7 +87,7 @@ footer{display:flex;justify-content:space-between;gap:10px;color:var(--muted);fo
 footer>span:last-child{color:var(--ink)}
 @media(max-width:650px){
  main{padding:0 23px}header{min-height:90px}.brand{font-size:20px;gap:5px;letter-spacing:-.7px}.brand-icon{width:27px;height:27px;margin-right:3px}
- .today{font-size:8px;gap:4px}.today strong{font-size:18px}.timezone{display:none}.direction-section{padding:23px 0 20px}.section-heading{margin-bottom:13px}h2{font-size:14px}.section-heading>span{font-size:10px}
+ .today{font-size:8px;gap:4px}.today strong{font-size:18px}.direction-section{padding:23px 0 20px}.section-heading{margin-bottom:13px}h2{font-size:14px}.section-heading>span{font-size:10px}
  .direction-options{gap:8px}.direction-button{min-height:88px;padding:21px 8px}.station-name{font-size:26px;letter-spacing:-1px}.selected-mark{top:8px;right:8px;font-size:11px}
  .schedule-controls{gap:9px}.field-label{font-size:10px}.segments button{padding:9px 11px;font-size:11px}.tag{font-size:9px;padding:5px 7px}.mode-note{font-size:10px;margin-bottom:20px}
  .hero{grid-template-columns:1.35fr 1fr}.departure{padding:19px 16px 22px 0}.hero-top{flex-wrap:wrap;font-size:10px;gap:6px}.departure-origin{font-size:17px}.big-time{font-size:62px;letter-spacing:-3px;margin:20px 0 15px}.trip-route{font-size:10px;line-height:1.8;gap:4px}.route-marker{font-size:8px;padding:1px 4px}
