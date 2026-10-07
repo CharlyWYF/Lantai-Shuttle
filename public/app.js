@@ -1,5 +1,5 @@
 import {stationNames,special,minute,chinaNow,automaticMode,departuresFor,upcoming,morningCycle,upcomingCycle} from './schedule.js';
-import {locateStation,locationErrorMessage} from './location.js';
+import {locateStation} from './location.js';
 const $=selector=>document.querySelector(selector);
 const pad=n=>String(n).padStart(2,'0');
 let station=0,preference='auto',lastView='';
@@ -62,36 +62,29 @@ function render() {
   $('#notice').hidden=!notes.length;$('#notice').textContent=notes.join(' ');
 }
 let locationRequest=0;
-const locationButton=$('#locate-station'),locationStatus=$('#location-status');
+const locationStatus=$('#location-status');
 function showLocationStatus(message) {
   locationStatus.textContent=message;locationStatus.hidden=!message;
 }
-locationButton.addEventListener('click',async()=>{
+async function selectNearbyStation() {
+  if(!window.isSecureContext||!navigator.geolocation)return;
   const request=++locationRequest;
-  if(!window.isSecureContext){showLocationStatus('请使用 HTTPS 网页定位，或手动选站。');return;}
-  if(!navigator.geolocation){showLocationStatus('此浏览器不支持定位，请手动选站。');return;}
-  locationButton.disabled=true;locationButton.querySelector('span').textContent='定位中…';
-  showLocationStatus('正在获取位置…');
   try {
     const result=await locateStation(navigator.geolocation);
-    if(request!==locationRequest)return;
-    if(result.status==='selected'){
-      station=result.station;persist();render();showLocationStatus(`离你最近：${stationNames[station]}`);
-    } else {
-      const messages={unconfigured:'站点位置尚待确认，请手动选站。',inaccurate:'定位精度不足，请重试或手动选站。',far:'你离站点较远，请手动选站。',ambiguous:'两个站距离接近，请手动选站。',unavailable:'暂时无法定位，请手动选站。'};
-      showLocationStatus(messages[result.status]);
-    }
-  } catch(error){if(request===locationRequest)showLocationStatus(locationErrorMessage(error));}
-  finally {if(request===locationRequest){locationButton.disabled=false;locationButton.querySelector('span').textContent='定位选站';}}
-});
+    if(request!==locationRequest||result.status!=='selected')return;
+    station=result.station;persist();render();showLocationStatus(`附近 · ${stationNames[station]}`);
+  } catch {
+    // Keep the saved station when permission is denied or no reliable fix is available.
+  }
+}
 document.querySelectorAll('[data-station]').forEach(button=>button.addEventListener('click',()=>{
   // Ignore a late GPS response after the user has explicitly chosen a station.
-  locationRequest++;locationButton.disabled=false;locationButton.querySelector('span').textContent='定位选站';showLocationStatus('');
+  locationRequest++;showLocationStatus('');
   station=Number(button.dataset.station);persist();render();
 }));
 document.querySelectorAll('[data-mode]').forEach(button=>button.addEventListener('click',()=>{
   preference=button.dataset.mode;persist();render();
 }));
 $('#special-out').textContent=special[0].join('  ');$('#special-back').textContent=special[1].join('  ');
-render();setInterval(render,1000);
+render();selectNearbyStation();setInterval(render,1000);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)render();});

@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {distanceBetween,nearestStation,locateStation,locationErrorMessage,stationLocations,amapStationLocations,wgs84ToGcj02,gcj02ToWgs84} from '../public/location.js';
+import {distanceBetween,nearestStation,locateStation,stationLocations,amapStationLocations,wgs84ToGcj02,gcj02ToWgs84} from '../public/location.js';
 
 // Synthetic points for matching tests; these are not the shuttle stop coordinates.
 const stops=[{latitude:31.9,longitude:118.81},{latitude:31.89,longitude:118.82},{latitude:31.88,longitude:118.81}];
@@ -21,8 +21,6 @@ test('requests a fresh fix with a timeout and propagates permission denial',asyn
   assert.equal(result.station,2);
   assert.deepEqual(options,{enableHighAccuracy:true,timeout:12000,maximumAge:0});
   await assert.rejects(locateStation({getCurrentPosition(success,error){error({code:1});}},stops),error=>error.code===1);
-  assert.match(locationErrorMessage({code:1}),/授权/);
-  assert.match(locationErrorMessage({code:3}),/超时/);
 });
 test('does not request user location before station positions are configured',async()=>{
   const result=await locateStation({getCurrentPosition(){assert.fail('should not request location');}},[null,null,null]);

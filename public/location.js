@@ -56,12 +56,6 @@ export function nearestStation(coords, locations = stationLocations) {
   return {status: 'selected', ...nearest};
 }
 
-export function locationErrorMessage(error) {
-  if (error?.code === 1) return '未获定位授权，请手动选站。';
-  if (error?.code === 3) return '定位超时，请重试或手动选站。';
-  return '暂时无法定位，请手动选站。';
-}
-
 export function locateStation(geolocation, locations = stationLocations) {
   if (locations.length !== 3 || !locations.every(validCoordinates)) return Promise.resolve({status: 'unconfigured'});
   return new Promise((resolve, reject) => {
