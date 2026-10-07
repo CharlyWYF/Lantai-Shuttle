@@ -36,6 +36,7 @@ h2{font-size:15px;font-weight:500;margin:0}
 .hero-top{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:12px}
 .departure-origin{font-size:19px;font-weight:650}
 .big-time{font-size:clamp(70px,10.8vw,124px);line-height:1.16;font-weight:600;letter-spacing:-7px;font-variant-numeric:tabular-nums;margin:20px 0 19px}
+.big-time.cycle-service{font-size:clamp(32px,5vw,64px);letter-spacing:-2px;line-height:1.5}
 .trip-routes{display:flex;flex-direction:column;gap:7px}
 .trip-route{display:flex;align-items:center;flex-wrap:wrap;gap:6px;font-size:12px;line-height:1.7}
 .trip-route>span:last-child{word-break:keep-all}
@@ -45,6 +46,7 @@ h2{font-size:15px;font-weight:500;margin:0}
 .countdown{font-size:58px;letter-spacing:-2px;margin-top:29px;color:var(--red);font-weight:500;white-space:nowrap}
 .countdown small{font-size:15px;letter-spacing:0;margin-left:7px}
 .countdown.text-status{font-size:clamp(20px,4vw,40px);letter-spacing:-1px;white-space:normal;line-height:1.35}
+.countdown.cycle-range{font-size:30px;letter-spacing:-1px}
 .waiting p{font-size:12px;color:var(--muted);line-height:1.7;margin:12px 0 23px}
 .wait-bottom{display:flex;align-items:center;justify-content:space-between;color:var(--muted);font-size:10px;margin-top:auto}
 .wait-bottom span:last-child{font-size:24px;color:var(--red)}
@@ -68,6 +70,7 @@ details[open] .plus{transform:rotate(45deg)}
 .legend{display:flex;justify-content:space-between;gap:8px;color:var(--muted);font-size:11px;margin:0 0 15px}
 .legend-dot{width:5px;height:5px;background:var(--red);display:inline-block;margin-right:5px}
 .time-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;padding-bottom:25px}
+.morning-summary{display:flex;justify-content:space-between;align-items:center;gap:10px;border:1px solid var(--line);padding:14px;margin-bottom:12px;font-size:13px;font-variant-numeric:tabular-nums}
 .time-cell{padding:12px 5px;border:1px solid var(--line);text-align:center;font-variant-numeric:tabular-nums}
 .time-cell>strong{font-weight:500;font-size:17px}
 .time-cell-routes{display:flex;flex-direction:column;gap:3px;margin-top:6px;font-size:9px;line-height:1.4}
@@ -90,6 +93,7 @@ footer>span:last-child{color:var(--ink)}
  .schedule-controls{gap:9px}.field-label{font-size:10px}.segments button{padding:9px 11px;font-size:11px}.tag{font-size:9px;padding:5px 7px}.mode-note{font-size:10px;margin-bottom:20px}
  .hero{grid-template-columns:1.35fr 1fr}.departure{padding:19px 16px 22px 0}.hero-top{flex-wrap:wrap;font-size:10px;gap:6px}.departure-origin{font-size:17px}.big-time{font-size:62px;letter-spacing:-3px;margin:20px 0 15px}.trip-route{font-size:10px;line-height:1.8;gap:4px}.route-marker{font-size:8px;padding:1px 4px}
  .waiting{padding:3px 0 0 18px;margin:19px 0}.countdown{font-size:38px;margin-top:29px}.countdown small{font-size:10px;margin-left:4px}.waiting p{font-size:10px}.wait-bottom{font-size:8px}
+ .countdown.cycle-range{font-size:16px;letter-spacing:-.4px}
  .following{margin:25px 0}.upcoming{grid-template-columns:1fr;gap:0}.bus-card{padding:13px 0;display:grid;grid-template-columns:95px 1fr;gap:15px;align-items:center}.bus-card-time{flex-direction:column;gap:4px}.bus-card-time strong{font-size:29px}.bus-card-routes{margin:0}.bus-card-routes .trip-route{font-size:11px}
  .time-grid{grid-template-columns:repeat(3,1fr);gap:6px}.time-cell>strong{font-size:16px}.time-cell-routes{font-size:8px}.notice{font-size:11px}.legend{font-size:10px}footer{font-size:8px}
 }

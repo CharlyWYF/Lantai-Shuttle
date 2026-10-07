@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {departuresFor,upcoming,tripsFor,minute,automaticMode,chinaNow} from '../public/schedule.js';
+import {departuresFor,upcoming,tripsFor,minute,automaticMode,chinaNow,upcomingCycle} from '../public/schedule.js';
 
 test('纪忠楼去程 participates in the next departure with its full route',()=>{
   const next=upcoming('work',0,605)[0];
@@ -34,7 +34,16 @@ test('all stations and modes remain chronologically sorted',()=>{
     const departures=departuresFor(mode,direction);
     assert.ok(departures.every((d,i)=>!i||minute(d.time)>minute(departures[i-1].time)));
   }
-  assert.equal(tripsFor('work',0).length,55);
+  assert.equal(tripsFor('work',0).length,52);
+});
+test('workday morning is a continuous service, with station-specific boundaries',()=>{
+  assert.deepEqual(upcomingCycle('work',0,500),{start:'7:20',end:'9:40',route:'兰台 → 北门 → 纪忠楼',active:true});
+  assert.equal(upcomingCycle('work',2,400).active,false);
+  assert.equal(upcomingCycle('work',1,590.99).end,'9:50');
+  assert.equal(upcomingCycle('work',1,591),null);
+  assert.equal(upcomingCycle('work',0,581),null);
+  assert.equal(upcomingCycle('holiday',0,500),null);
+  assert.equal(upcoming('work',0,500)[0].time,'10:00');
 });
 test('Jizhong shows its own departure times and return route',()=>{
   const next=upcoming('work',2,700)[0];

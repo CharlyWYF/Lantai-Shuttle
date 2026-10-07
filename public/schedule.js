@@ -12,6 +12,16 @@ export const schedules = {
 export const special = [parse('10:20 11:10 13:40 14:30 15:30 16:20 17:10 18:40 19:30 20:25'), parse('10:50 11:40 12:30 15:00 15:50 16:50 17:40 18:30 19:55 20:50 21:40')];
 export const stationNames = ['兰台','北门','纪忠楼'];
 export const minute = t => { const [h,m] = t.split(':').map(Number); return h*60+m; };
+export function morningCycle(mode,station) {
+  if(mode !== 'work')return null;
+  const start=station===0?'7:20':'7:30',end=station===0?'9:40':'9:50';
+  const route=['兰台 → 北门 → 纪忠楼','北门 → 兰台','纪忠楼 → 北门 → 兰台'][station];
+  return {start,end,route};
+}
+export function upcomingCycle(mode,station,nowMinutes) {
+  const cycle=morningCycle(mode,station);
+  return cycle&&nowMinutes<minute(cycle.end)+1?{...cycle,active:nowMinutes>=minute(cycle.start)}:null;
+}
 export function chinaNow(date = new Date()) {
   const d = new Date(date.getTime()+8*3600000);
   return {minutes:d.getUTCHours()*60+d.getUTCMinutes()+d.getUTCSeconds()/60, hour:d.getUTCHours(),min:d.getUTCMinutes(),sec:d.getUTCSeconds(),day:d.getUTCDay(), date:`${d.getUTCFullYear()}.${String(d.getUTCMonth()+1).padStart(2,'0')}.${String(d.getUTCDate()).padStart(2,'0')}`};
@@ -33,8 +43,9 @@ export function tripsFor(mode,direction) {
     return mode === 'work' ? special[1].map(time=>({time,route:'纪忠楼 → 文学院 → 北门 → 兰台',kind:'jizhong'})) : [];
   }
   const directRoute = direction === 0 ? '兰台 → 北门' : '北门 → 兰台';
-  const trips = schedules[mode][direction].map(time => {
-    const viaJizhong = direction === 0 && ((mode === 'holiday' && time === '7:40') || (mode === 'work' && minute(time) < 600));
+  const times=schedules[mode][direction].filter(time=>mode!=='work'||minute(time)>=600);
+  const trips = times.map(time => {
+    const viaJizhong = direction === 0 && mode === 'holiday' && time === '7:40';
     return {time, route: viaJizhong ? '兰台 → 北门 → 纪忠楼' : directRoute, kind: viaJizhong ? 'jizhong' : 'direct'};
   });
   if(mode === 'work' && direction === 0) {
