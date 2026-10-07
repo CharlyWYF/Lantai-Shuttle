@@ -18,16 +18,12 @@ header{min-height:108px;display:flex;align-items:center;justify-content:space-be
 .section-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
 h2{font-size:15px;font-weight:500;margin:0}
 .section-heading>span{font-size:11px;color:var(--muted)}
-.direction-options{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
-.direction-button{padding:21px 25px 19px;border:1px solid var(--line);background:transparent;color:var(--ink);text-align:left}
+.direction-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.direction-button{position:relative;min-height:106px;padding:25px 16px;border:1px solid var(--line);background:transparent;color:var(--ink);text-align:left}
 .direction-button.active{background:var(--red);color:white;border-color:var(--red)}
-.direction-top{display:flex;justify-content:space-between;align-items:center;font-size:12px}
-.selected-mark{visibility:hidden;font-size:18px;line-height:1}
+.selected-mark{position:absolute;top:10px;right:10px;visibility:hidden;font-size:14px;line-height:1}
 .active .selected-mark{visibility:visible}
-.direction-path{display:flex;align-items:center;gap:18px;font-size:38px;line-height:1.4;font-weight:650;letter-spacing:-1.5px;margin:9px 0 10px}
-.direction-path>span{font-weight:400}
-.direction-bottom{display:block;font-size:11px;color:var(--muted)}
-.active .direction-bottom{color:white}
+.station-name{display:block;font-size:38px;line-height:1.4;font-weight:650;letter-spacing:-1.5px;text-align:center;white-space:nowrap}
 .schedule-controls{display:flex;align-items:center;gap:16px}
 .field-label{display:block;color:var(--muted);font-size:11px;letter-spacing:1px}
 .segments{display:flex;border:1px solid var(--line);padding:3px;gap:3px}
@@ -48,6 +44,7 @@ h2{font-size:15px;font-weight:500;margin:0}
 .waiting{border-left:1px solid var(--line);margin:26px 0;padding:5px 0 0 35px;display:flex;flex-direction:column}
 .countdown{font-size:58px;letter-spacing:-2px;margin-top:29px;color:var(--red);font-weight:500;white-space:nowrap}
 .countdown small{font-size:15px;letter-spacing:0;margin-left:7px}
+.countdown.text-status{font-size:clamp(20px,4vw,40px);letter-spacing:-1px;white-space:normal;line-height:1.35}
 .waiting p{font-size:12px;color:var(--muted);line-height:1.7;margin:12px 0 23px}
 .wait-bottom{display:flex;align-items:center;justify-content:space-between;color:var(--muted);font-size:10px;margin-top:auto}
 .wait-bottom span:last-child{font-size:24px;color:var(--red)}
@@ -61,8 +58,6 @@ h2{font-size:15px;font-weight:500;margin:0}
 .bus-card-routes{margin-top:10px;display:flex;flex-direction:column;gap:6px}
 .bus-card-routes .trip-route{font-size:11px;gap:4px}
 .empty{font-size:13px;color:var(--muted);grid-column:1/-1}
-.return-reference{border-top:1px solid var(--line);padding:20px 0}
-.return-reference p{font-size:12px;line-height:1.8;color:var(--muted)}
 .all{border-top:1px solid var(--ink)}
 details{border-bottom:1px solid var(--line)}
 summary{list-style:none;display:flex;align-items:center;justify-content:space-between;padding:22px 0;font-size:14px;cursor:pointer}
@@ -91,11 +86,11 @@ footer>span:last-child{color:var(--ink)}
 @media(max-width:650px){
  main{padding:0 23px}header{min-height:90px}.brand{font-size:20px;gap:5px;letter-spacing:-.7px}.brand-icon{width:27px;height:27px;font-size:23px;margin-right:3px}
  .today{font-size:8px;gap:4px}.today strong{font-size:18px}.timezone{display:none}.direction-section{padding:23px 0 20px}.section-heading{margin-bottom:13px}h2{font-size:14px}.section-heading>span{font-size:10px}
- .direction-options{gap:8px}.direction-button{padding:15px 13px}.direction-top{font-size:10px}.direction-path{font-size:25px;gap:8px;letter-spacing:-1px;margin:10px 0;white-space:nowrap}.direction-bottom{font-size:9px;line-height:1.5}
+ .direction-options{gap:8px}.direction-button{min-height:88px;padding:21px 8px}.station-name{font-size:26px;letter-spacing:-1px}.selected-mark{top:8px;right:8px;font-size:11px}
  .schedule-controls{gap:9px}.field-label{font-size:10px}.segments button{padding:9px 11px;font-size:11px}.tag{font-size:9px;padding:5px 7px}.mode-note{font-size:10px;margin-bottom:20px}
  .hero{grid-template-columns:1.35fr 1fr}.departure{padding:19px 16px 22px 0}.hero-top{flex-wrap:wrap;font-size:10px;gap:6px}.departure-origin{font-size:17px}.big-time{font-size:62px;letter-spacing:-3px;margin:20px 0 15px}.trip-route{font-size:10px;line-height:1.8;gap:4px}.route-marker{font-size:8px;padding:1px 4px}
  .waiting{padding:3px 0 0 18px;margin:19px 0}.countdown{font-size:38px;margin-top:29px}.countdown small{font-size:10px;margin-left:4px}.waiting p{font-size:10px}.wait-bottom{font-size:8px}
  .following{margin:25px 0}.upcoming{grid-template-columns:1fr;gap:0}.bus-card{padding:13px 0;display:grid;grid-template-columns:95px 1fr;gap:15px;align-items:center}.bus-card-time{flex-direction:column;gap:4px}.bus-card-time strong{font-size:29px}.bus-card-routes{margin:0}.bus-card-routes .trip-route{font-size:11px}
  .time-grid{grid-template-columns:repeat(3,1fr);gap:6px}.time-cell>strong{font-size:16px}.time-cell-routes{font-size:8px}.notice{font-size:11px}.legend{font-size:10px}footer{font-size:8px}
 }
-@media(max-width:360px){main{padding:0 16px}.brand{font-size:18px}.direction-button{padding:14px 8px}.direction-path{font-size:20px;gap:5px}.big-time{font-size:55px}.countdown{font-size:32px}.segments button{padding:9px 9px}}
+@media(max-width:360px){main{padding:0 16px}.brand{font-size:18px}.direction-button{min-height:80px;padding:20px 6px}.station-name{font-size:22px}.big-time{font-size:55px}.countdown{font-size:32px}.segments button{padding:9px 9px}}
