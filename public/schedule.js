@@ -25,4 +25,26 @@ export function automaticMode(day,date='') {
   }
   return day===0||day===6?'holiday':'work';
 }
-export function upcoming(mode,direction,nowMinutes) { return schedules[mode][direction].filter(t=>minute(t)+1>nowMinutes); }
+// Rider-confirmed: outbound Jizhong times are Lantai departures.
+// Return entries are Jizhong class-end times, not North Gate departures.
+export function tripsFor(mode,direction) {
+  const directRoute = direction === 0 ? '兰台 → 北门' : '北门 → 兰台';
+  const trips = schedules[mode][direction].map(time => {
+    const viaJizhong = direction === 0 && ((mode === 'holiday' && time === '7:40') || (mode === 'work' && minute(time) < 600));
+    return {time, route: viaJizhong ? '兰台 → 北门 → 纪忠楼' : directRoute, kind: viaJizhong ? 'jizhong' : 'direct'};
+  });
+  if(mode === 'work' && direction === 0) {
+    trips.push(...special[0].map(time => ({time, route:'兰台 → 北门 → 文学院 → 纪忠楼',kind:'jizhong'})));
+  }
+  return trips.sort((a,b)=>minute(a.time)-minute(b.time));
+}
+export function departuresFor(mode,direction) {
+  const departures=[];
+  for(const trip of tripsFor(mode,direction)) {
+    const last=departures[departures.length-1];
+    if(last?.time===trip.time)last.trips.push(trip);
+    else departures.push({time:trip.time,trips:[trip]});
+  }
+  return departures;
+}
+export function upcoming(mode,direction,nowMinutes) { return departuresFor(mode,direction).filter(d=>minute(d.time)+1>nowMinutes); }
