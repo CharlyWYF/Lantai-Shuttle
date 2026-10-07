@@ -1,0 +1,10 @@
+.DS_Store
+.vercel/
+.env
+.env.*
+node_modules/
+sites/
+下一班.html
+时刻表.jpg
+*.tar.gz
+*.zip

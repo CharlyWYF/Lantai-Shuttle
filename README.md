@@ -1,0 +1,42 @@
+# 兰台 · 下一班
+
+兰台研究生公寓（南师附中）与学校北门转盘之间的接驳车时刻网页。
+
+采用简洁的瑞士风格，手机打开即可查看下一班发车时间、候车倒计时与后续三班。
+
+## 功能
+
+- 宿舍 → 学校 / 学校 → 宿舍切换，记住选择。
+- 工作日 / 节假日切换；自动模式包含 2026 年法定节假日与调休。
+- 北京时间自动更新，展开查看全天时刻表与原始图片。
+- 早高峰循环发车、纪忠楼线路和晚间时间浮动提示。
+- 纯 HTML、CSS、JavaScript，无需安装依赖、构建或后端。
+
+## 部署到 Vercel
+
+1. 在 Vercel 中点击 **Add New → Project**，导入本 GitHub 仓库。
+2. Root Directory 使用仓库根目录，Framework Preset 为 **Other**。
+3. 项目自带 `vercel.json`，无需 Build Command，输出目录为 `public`。
+4. 点击 **Deploy**。
+5. 部署完成后，在项目 **Settings → Domains** 中添加自己的域名，按 Vercel 显示的记录配置 DNS。
+
+后续推送到生产分支后，Vercel 会自动部署更新。
+
+## 本地预览
+
+在仓库根目录运行：
+
+```sh
+python3 -m http.server 4173 --directory public
+```
+
+浏览器打开 `http://localhost:4173`。页面使用 ES 模块，应通过 HTTP 服务预览。
+
+## 更新时刻表
+
+班次数据位于 `public/schedule.js`，界面逻辑位于 `public/app.js`。
+原始时刻表在 `public/timetable.jpg`。
+
+自动日历的 2026 年数据依据 [国务院办公厅关于2026年部分节假日安排的通知](https://www.beijing.gov.cn/fuwu/bmfw/sy/jrts/202511/t20251104_4258838.html)。其他年份暂按星期判断，法定假日、调休与学校特殊安排请手动切换。
+
+显示的是表定发车时间。工作日早高峰未给出逐班间隔；纪忠楼去程时间标注为上课时间，不作为兰台精确发车时间参与首页计算。
