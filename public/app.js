@@ -1,4 +1,5 @@
 import {stationNames,special,minute,chinaNow,automaticMode,departuresFor,upcoming,morningCycle,upcomingCycle} from './schedule.js';
+import {locateStation,locationErrorMessage} from './location.js';
 const $=selector=>document.querySelector(selector);
 const pad=n=>String(n).padStart(2,'0');
 let station=0,preference='auto',lastView='';
@@ -60,7 +61,32 @@ function render() {
   if(station===0&&next&&minute(next.time)>=eveningStart&&minute(next.time)<=eveningEnd)notes.push('晚间南师附中下课时段，兰台回北门时间可能浮动。');
   $('#notice').hidden=!notes.length;$('#notice').textContent=notes.join(' ');
 }
+let locationRequest=0;
+const locationButton=$('#locate-station'),locationStatus=$('#location-status');
+function showLocationStatus(message) {
+  locationStatus.textContent=message;locationStatus.hidden=!message;
+}
+locationButton.addEventListener('click',async()=>{
+  const request=++locationRequest;
+  if(!window.isSecureContext){showLocationStatus('请使用 HTTPS 网页定位，或手动选站。');return;}
+  if(!navigator.geolocation){showLocationStatus('此浏览器不支持定位，请手动选站。');return;}
+  locationButton.disabled=true;locationButton.querySelector('span').textContent='定位中…';
+  showLocationStatus('正在获取位置…');
+  try {
+    const result=await locateStation(navigator.geolocation);
+    if(request!==locationRequest)return;
+    if(result.status==='selected'){
+      station=result.station;persist();render();showLocationStatus(`离你最近：${stationNames[station]}`);
+    } else {
+      const messages={unconfigured:'站点位置尚待确认，请手动选站。',inaccurate:'定位精度不足，请重试或手动选站。',far:'你离站点较远，请手动选站。',ambiguous:'两个站距离接近，请手动选站。',unavailable:'暂时无法定位，请手动选站。'};
+      showLocationStatus(messages[result.status]);
+    }
+  } catch(error){if(request===locationRequest)showLocationStatus(locationErrorMessage(error));}
+  finally {if(request===locationRequest){locationButton.disabled=false;locationButton.querySelector('span').textContent='定位选站';}}
+});
 document.querySelectorAll('[data-station]').forEach(button=>button.addEventListener('click',()=>{
+  // Ignore a late GPS response after the user has explicitly chosen a station.
+  locationRequest++;locationButton.disabled=false;locationButton.querySelector('span').textContent='定位选站';showLocationStatus('');
   station=Number(button.dataset.station);persist();render();
 }));
 document.querySelectorAll('[data-mode]').forEach(button=>button.addEventListener('click',()=>{

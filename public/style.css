@@ -17,6 +17,10 @@ header{min-height:108px;display:flex;align-items:center;justify-content:space-be
 .section-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
 h2{font-size:15px;font-weight:500;margin:0}
 .section-heading>span{font-size:11px;color:var(--muted)}
+.location-button{display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:7px 0 7px 10px;border:0;background:transparent;color:var(--muted);font-size:12px;white-space:nowrap}
+.location-button:hover{color:var(--red)}
+.location-button:disabled{cursor:wait;opacity:.6}
+.location-status{margin:12px 0 0;color:var(--muted);font-size:11px;line-height:1.7}
 .direction-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
 .direction-button{position:relative;min-height:106px;padding:25px 16px;border:1px solid var(--line);background:transparent;color:var(--ink);text-align:left}
 .direction-button.active{background:var(--red);color:white;border-color:var(--red)}
