@@ -13,7 +13,7 @@ test('simultaneous direct and Jizhong routes are both retained',()=>{
   assert.deepEqual(next.trips.map(t=>t.kind),['direct','jizhong']);
   assert.equal(departuresFor('work',0).filter(t=>t.time==='17:10').length,1);
 });
-test('North Gate return does not use Jizhong class-end times as departure times',()=>{
+test('North Gate return does not use departures from Jizhong',()=>{
   const next=upcoming('work',1,641)[0];
   assert.equal(next.time,'11:10');
   assert.equal(next.trips[0].route,'北门 → 兰台');
@@ -36,10 +36,10 @@ test('all stations and modes remain chronologically sorted',()=>{
   }
   assert.equal(tripsFor('work',0).length,55);
 });
-test('Jizhong shows its own return times and route, with the original time basis',()=>{
+test('Jizhong shows its own departure times and return route',()=>{
   const next=upcoming('work',2,700)[0];
   assert.equal(next.time,'11:40');
-  assert.deepEqual(next.trips,[{time:'11:40',route:'纪忠楼 → 文学院 → 北门 → 兰台',kind:'jizhong',timeBasis:'class-end'}]);
+  assert.deepEqual(next.trips,[{time:'11:40',route:'纪忠楼 → 文学院 → 北门 → 兰台',kind:'jizhong'}]);
   assert.equal(departuresFor('work',2).length,11);
   assert.equal(upcoming('work',2,1301).length,0);
 });

@@ -26,12 +26,11 @@ export function automaticMode(day,date='') {
   }
   return day===0||day===6?'holiday':'work';
 }
-// Rider-confirmed: outbound Jizhong times are Lantai departures.
-// Return entries are Jizhong class-end times, not North Gate departures.
+// Jizhong line times are departures at each route's origin station.
 export function tripsFor(mode,direction) {
   if(direction === 2) {
     // Only the workday timetable lists Jizhong return entries.
-    return mode === 'work' ? special[1].map(time=>({time,route:'纪忠楼 → 文学院 → 北门 → 兰台',kind:'jizhong',timeBasis:'class-end'})) : [];
+    return mode === 'work' ? special[1].map(time=>({time,route:'纪忠楼 → 文学院 → 北门 → 兰台',kind:'jizhong'})) : [];
   }
   const directRoute = direction === 0 ? '兰台 → 北门' : '北门 → 兰台';
   const trips = schedules[mode][direction].map(time => {

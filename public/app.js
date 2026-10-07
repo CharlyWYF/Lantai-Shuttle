@@ -37,23 +37,22 @@ function render() {
   $('#day-tag').textContent=mode==='work'?'工作日':'节假日';
   $('#departure-origin').textContent=`${origin}发车`;
   $('#following-direction').textContent=`${origin}发车`;
-  $('#next-label').textContent=noTimetable?'原表未列班次':next?(station===2?'下一班 · 下课时刻':next.trips.length>1?`下一班 · ${next.trips.length} 条线路`:'下一班'):'今日班次已结束';
-  $('#countdown-label').textContent=station===2?'距表列时间':'距发车还有';
+  $('#next-label').textContent=noTimetable?'原表未列班次':next?(next.trips.length>1?`下一班 · ${next.trips.length} 条线路`:'下一班'):'今日班次已结束';
+  $('#countdown-label').textContent='距发车还有';
   $('#next-time').textContent=next?next.time.padStart(5,'0'):'—';
   $('#trip-routes').innerHTML=noTimetable?'':next?routesHtml(next.trips):`<span class="trip-route">${origin} → ${destination}</span>`;
   const left=next?Math.max(0,minute(next.time)-Math.floor(now.minutes)):null;
   $('#countdown').classList.toggle('text-status',left===null||left===0);
-  $('#countdown').innerHTML=left===null?(noTimetable?'未列出':'休息中'):left===0?(station===2?'已到表列时间':'即将发车'):left>=60?`${Math.floor(left/60)}<small>小时</small> ${left%60}<small>分</small>`:`${left}<small>分钟</small>`;
-  $('#status').textContent=noTimetable?'节假日表未提供纪忠楼发车时间。':next?(station===2?'按纪忠楼下课时刻显示。':left===0?`已到表定时间，请在${origin}留意车辆。`:`请在${origin}候车，前往${destination}。`):'明日首班请根据当日时刻表查看。';
+  $('#countdown').innerHTML=left===null?(noTimetable?'未列出':'休息中'):left===0?'即将发车':left>=60?`${Math.floor(left/60)}<small>小时</small> ${left%60}<small>分</small>`:`${left}<small>分钟</small>`;
+  $('#status').textContent=noTimetable?'节假日表未提供纪忠楼发车时间。':next?(left===0?`已到表定时间，请在${origin}留意车辆。`:`请在${origin}候车，前往${destination}。`):'明日首班请根据当日时刻表查看。';
   $('#upcoming').innerHTML=future.slice(1,4).map(departure=>`<div class="bus-card"><div class="bus-card-time"><strong>${departure.time.padStart(5,'0')}</strong><span>${Math.max(0,minute(departure.time)-Math.floor(now.minutes))} 分钟后</span></div><div class="bus-card-routes">${routesHtml(departure.trips)}</div></div>`).join('')||(noTimetable?'<p class="empty">节假日表未列纪忠楼班次，可查看原始时刻表或切换工作日。</p>':'<p class="empty">今天没有更多明确列出的班次。</p>');
-  $('#total').textContent=noTimetable?'原表未列':`${departures.length} 个${station===2?'表列时间':'发车时间'}`;
+  $('#total').textContent=noTimetable?'原表未列':`${departures.length} 个发车时间`;
   $('#route-legend').textContent=station===2?'经北门返回兰台':'经北门前往纪忠楼';
   $('#times').innerHTML=departures.map(departure=>`<div class="time-cell ${minute(departure.time)+1<=now.minutes?'past':departure.time===next?.time?'next':''}"><strong>${departure.time.padStart(5,'0')}</strong><div class="time-cell-routes">${departure.trips.map(trip=>`<span class="${trip.kind==='jizhong'?'time-jizhong':''}">${trip.kind==='jizhong'?(station===2?'经北门 → 兰台':'经北门 → 纪忠楼'):`${origin} → ${destination}`}</span>`).join('')}</div></div>`).join('');
   const notes=[];
   if(mode==='work'&&now.minutes>=(station===0?440:450)&&now.minutes<=(station?590:580))notes.push('当前为早高峰循环发车时段。原表未列明每班间隔，请留意现场车辆。');
   const eveningStart=mode==='work'?1185:1175,eveningEnd=mode==='work'?1305:1295;
   if(station===0&&next&&minute(next.time)>=eveningStart&&minute(next.time)<=eveningEnd)notes.push('晚间南师附中下课时段，兰台回北门时间可能浮动。');
-  if(station===2&&mode==='work')notes.push('纪忠楼班次按原表下课时间显示，实际发车以现场为准。');
   $('#notice').hidden=!notes.length;$('#notice').textContent=notes.join(' ');
 }
 document.querySelectorAll('[data-station]').forEach(button=>button.addEventListener('click',()=>{
