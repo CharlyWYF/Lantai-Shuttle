@@ -14,25 +14,6 @@
 - 纪忠楼出发显示工作日回程班次、完整路线与发车倒计时；节假日原表未列班次，不推算时间。
 - 纯 HTML、CSS、JavaScript，无需安装依赖、构建或后端。
 
-## 部署到 Vercel
-
-1. 在 Vercel 中点击 **Add New → Project**，导入本 GitHub 仓库。
-2. Root Directory 使用仓库根目录，Framework Preset 为 **Other**。
-3. 项目自带 `vercel.json`，无需 Build Command，输出目录为 `public`。
-4. 点击 **Deploy**。
-5. 部署完成后，在项目 **Settings → Domains** 中添加自己的域名，按 Vercel 显示的记录配置 DNS。
-
-后续推送到生产分支后，Vercel 会自动部署更新。
-
-## 本地预览
-
-在仓库根目录运行：
-
-```sh
-python3 -m http.server 4173 --directory public
-```
-
-浏览器打开 `http://localhost:4173`。页面使用 ES 模块，应通过 HTTP 服务预览。
 
 ## 更新时刻表
 
@@ -43,3 +24,6 @@ python3 -m http.server 4173 --directory public
 自动日历的 2026 年数据依据 [国务院办公厅关于2026年部分节假日安排的通知](https://www.beijing.gov.cn/fuwu/bmfw/sy/jrts/202511/t20251104_4258838.html)。其他年份暂按星期判断，法定假日、调休与学校特殊安排请手动切换。
 
 各站班次均为本站发车时间。兰台前往纪忠楼的班次已合并进兰台站；纪忠楼回程班次显示在纪忠楼站，不作为北门站发车时间使用。工作日早间段统一显示循环发车及循环时段，不显示逐班倒计时。
+
+## 安卓app
+https://github.com/CharlyWYF/Lantai-Shuttle/releases
