@@ -26,4 +26,4 @@
 各站班次均为本站发车时间。兰台前往纪忠楼的班次已合并进兰台站；纪忠楼回程班次显示在纪忠楼站，不作为北门站发车时间使用。工作日早间段统一显示循环发车及循环时段，不显示逐班倒计时。
 
 ## 安卓app
-https://github.com/CharlyWYF/Lantai-Shuttle/releases
+[下载](https://github.com/CharlyWYF/Lantai-Shuttle/releases)
